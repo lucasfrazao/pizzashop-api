@@ -14,7 +14,7 @@ export const restaurants = pgTable("restaurants", {
   updatedAt: timestamp("updated_at").notNull().defaultNow(),
 });
 
-export const restaurantsRelations = relations(restaurants, ({one }) => {
+export const restaurantsRelations = relations(restaurants, ({ one }) => {
   return {
     manager: one(users, {
       fields: [restaurants.managerId],
