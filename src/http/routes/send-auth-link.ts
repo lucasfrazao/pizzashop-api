@@ -1,8 +1,8 @@
 import { createId } from '@paralleldrive/cuid2'
 import Elysia, { t } from 'elysia'
+import { db } from '../../db/connection'
+import { authLinks } from '../../db/schema/auth-links'
 import { env } from '../../env'
-import { db } from '../connection'
-import { authLinks } from './auth-links'
 
 export const sendAuthLink = new Elysia().post(
   '/authenticate',
