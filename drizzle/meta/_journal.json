@@ -43,6 +43,20 @@
       "when": 1715782567392,
       "tag": "0005_hot_namorita",
       "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "6",
+      "when": 1715783292440,
+      "tag": "0006_free_harrier",
+      "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "6",
+      "when": 1715784500797,
+      "tag": "0007_wandering_toxin",
+      "breakpoints": true
     }
   ]
 }
