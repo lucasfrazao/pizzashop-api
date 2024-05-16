@@ -20,6 +20,7 @@ import { getOrders } from './routes/get-orders'
 import { getPopularProducts } from './routes/get-popular-products'
 import { getProfile } from './routes/get-profile'
 import { signOut } from './routes/sign-out'
+import { updateProfile } from './routes/update-profile'
 
 const app = new Elysia()
   .use(
@@ -56,6 +57,7 @@ const app = new Elysia()
   .use(getMonthCanceledOrdersAmount)
   .use(getPopularProducts)
   .use(getDailyReceiptInPeriod)
+  .use(updateProfile)
   .onError(({ code, error, set }) => {
     switch (code) {
       case 'VALIDATION': {

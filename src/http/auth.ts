@@ -1,6 +1,7 @@
 import jwt from '@elysiajs/jwt'
 import Elysia, { t, type Static } from 'elysia'
 import { env } from '../env'
+import { NotAManagerError } from './errors/not-a-manager-error'
 import { UnauthorizedError } from './errors/unauthorized-error'
 
 const jwtPayload = t.Object({
@@ -11,17 +12,21 @@ const jwtPayload = t.Object({
 export const auth = new Elysia()
   .error({
     UNAUTHORIZED: UnauthorizedError,
+    NOT_A_MANAGER: NotAManagerError,
   })
   .onError(({ error, code, set }) => {
     switch (code) {
-      case 'UNAUTHORIZED': {
+      case 'UNAUTHORIZED':
         set.status = 401
         return { code, message: error.message }
-      }
+      case 'NOT_A_MANAGER':
+        set.status = 401
+        return { code, message: error.message }
     }
   })
   .use(
     jwt({
+      name: 'jwt',
       secret: env.JWT_SECRET_KEY,
       schema: jwtPayload,
     }),
@@ -52,6 +57,19 @@ export const auth = new Elysia()
           userId: payload.sub,
           restaurantId: payload.restaurantId,
         }
+      },
+    }
+  })
+  .derive({ as: 'global' }, ({ getCurrentUser }) => {
+    return {
+      getManagedRestaurantId: async () => {
+        const { restaurantId } = await getCurrentUser()
+
+        if (!restaurantId) {
+          throw new NotAManagerError()
+        }
+
+        return restaurantId
       },
     }
   })
