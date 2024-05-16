@@ -22,7 +22,22 @@ import { getProfile } from './routes/get-profile'
 import { signOut } from './routes/sign-out'
 
 const app = new Elysia()
-  .use(cors())
+  .use(
+    cors({
+      credentials: true,
+      allowedHeaders: ['content-type'],
+      methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'HEAD', 'OPTIONS'],
+      origin: (request): boolean => {
+        const origin = request.headers.get('origin')
+
+        if (!origin) {
+          return false
+        }
+
+        return true
+      },
+    }),
+  )
   .use(registerRestaurant)
   .use(sendAuthLink)
   .use(authenticateFromLink)
