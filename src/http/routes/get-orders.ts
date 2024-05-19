@@ -58,7 +58,7 @@ export const getOrders = new Elysia().use(auth).get(
 
     const amountOfOrders = amountOfOrdersQuery[0].count
 
-    return {
+    const result = {
       orders: allOrders,
       meta: {
         pageIndex,
@@ -66,6 +66,8 @@ export const getOrders = new Elysia().use(auth).get(
         totalCount: amountOfOrders,
       },
     }
+
+    return result
   },
   {
     query: t.Object({
